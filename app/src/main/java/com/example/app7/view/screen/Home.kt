@@ -38,38 +38,3 @@ fun Home(controller: NavHostController) {
         }
     }
 }
-    /*Scaffold { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            Image(
-                painter = painterResource(R.drawable.background_image),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                MyButton(R.drawable.play_button) {
-                    controller.navigate(
-                        ScreenRoute.Second.route
-                    )
-                }
-                MyButton(R.drawable.level_button) { }
-                MyButton(R.drawable.buy_pro_button) { }
-            }
-        }
-    }*/
-    /*@Composable
-    fun MyButton(image: Int, clickable: () -> Unit) {
-        Image(
-            painter = painterResource(image),
-            contentDescription = null,
-            modifier = Modifier
-                .size(250.dp, 100.dp)
-                .padding(0.dp, 8.dp)
-                .clickable(onClick = clickable)
-        )
-    }*/
