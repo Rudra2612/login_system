@@ -5,7 +5,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.app7.view.screen.Home
-import com.example.app7.view.screen.Second
 import com.example.app7.view.screen.Splash
 
 @Composable
@@ -18,14 +17,10 @@ fun NavigationStack() {
         composable(route = ScreenRoute.Home.route) {
             Home(controller)
         }
-        composable(route = ScreenRoute.Second.route) {
-            Second(controller)
-        }
     }
 }
 
 sealed class ScreenRoute(val route: String) {
     data object Splash : ScreenRoute("splash")
     data object Home : ScreenRoute("home")
-    data object Second : ScreenRoute("second")
 }
