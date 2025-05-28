@@ -2,12 +2,21 @@ package com.example.app7.controller
 
 import android.content.Context
 import com.example.app7.model.DatabaseHelper
+import com.example.app7.model.UserModel
 
 class HomeController(context: Context) {
 
     private val db = DatabaseHelper(context)
-    fun adduser(email: String, password: String) {
+    fun addUser(email: String, password: String) {
         db.insertUser(email,password)
+    }
+
+    fun isUserExist(email: String, password: String): Boolean {
+        return  db.isUserExist(email,password)
+    }
+
+    fun getAllUser(): ArrayList<UserModel> {
+        return db.getUser()
     }
 
 }
