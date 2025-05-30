@@ -19,4 +19,20 @@ class HomeController(context: Context) {
         return db.getUser()
     }
 
+    fun isUserExist1(email: String): Boolean {
+        return db.isUserExist1(email)
+    }
+
+    fun removeUser(email: String) {
+        db.removeUser(email)
+    }
+
+    fun getOldPassword(email: String): String {
+        return db.getOldPassword(email)
+    }
+
+    fun setNewPassword(email: String, password: String) {
+        db.setNewPassword(email,password)
+    }
+
 }

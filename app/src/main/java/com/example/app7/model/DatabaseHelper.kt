@@ -42,4 +42,34 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, "MYSQL", null
         cursor.close()
         return listOfUser
     }
+
+    fun isUserExist1(email: String): Boolean {
+        val check  = "select email from users where email='$email'"
+        val cursor = readableDatabase.rawQuery(check,null)
+        val isFound = cursor.moveToNext()
+        cursor.close()
+        return isFound
+    }
+
+    fun removeUser(email: String) {
+        val remove = "delete from users where email='$email'"
+        readableDatabase.execSQL(remove)
+    }
+
+    fun getOldPassword(email: String): String {
+        val getPassword = "select password from users where email='$email'"
+        val cursor = readableDatabase.rawQuery(getPassword,null)
+        var password = ""
+        while (cursor.moveToNext()) {
+            val passwordIndex = cursor.getColumnIndex("password")
+            password = cursor.getString(passwordIndex)
+        }
+        cursor.close()
+        return password
+    }
+
+    fun setNewPassword(email: String, password: String) {
+        val update = "update users set password='$password' where email='$email'"
+        writableDatabase.execSQL(update)
+    }
 }

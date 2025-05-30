@@ -42,6 +42,14 @@ import androidx.navigation.NavHostController
 import com.example.app7.R
 import com.example.app7.controller.HomeController
 import com.example.app7.controller.PrefController
+import com.example.app7.ui.theme.backColor
+import com.example.app7.ui.theme.blackColor
+import com.example.app7.ui.theme.errorColor
+import com.example.app7.ui.theme.fcColor
+import com.example.app7.ui.theme.placeHolderColor
+import com.example.app7.ui.theme.themeColor
+import com.example.app7.ui.theme.themeColorDark
+import com.example.app7.ui.theme.themeColorLight
 import com.example.app7.view.navigation.ScreenRoute
 
 @Composable
@@ -52,13 +60,16 @@ fun Login(controller: NavHostController) {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var emptyEmail by remember { mutableStateOf(false) }
+    var emptyPassword by remember { mutableStateOf(false) }
+    var userNotFound by remember { mutableStateOf(false) }
     var hide by remember { mutableStateOf(true) }
     val homeController by lazy {
         HomeController(context)
     }
     Column(
         modifier = Modifier
-            .background(color = Color(0xFFF4DBFF))
+            .background(color = backColor)
     ) {
         Box(
             modifier = Modifier
@@ -76,7 +87,7 @@ fun Login(controller: NavHostController) {
         Text(
             text = "Sign in to your account",
             fontSize = 28.sp,
-            color = Color(0xCE9602D2),
+            color = themeColor,
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
@@ -86,12 +97,14 @@ fun Login(controller: NavHostController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(1f),
+                .weight(1.3f),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             OutlinedTextField(
                 value = email,
                 onValueChange = {
+                    emptyEmail = false
+                    userNotFound = false
                     email = it
                 },
                 label = { Text("Email Address", fontSize = 20.sp) },
@@ -99,20 +112,26 @@ fun Login(controller: NavHostController) {
                     Text(
                         text = "Enter your email address",
                         fontSize = 15.sp,
-                        color = Color(color = 0x49423B44)
+                        color = placeHolderColor
                     )
                 },
                 shape = RoundedCornerShape(10.dp),
                 singleLine = true,
-                textStyle = TextStyle(fontSize = 20.sp, color = Color(0xF76E3B80)),
+                textStyle = TextStyle(fontSize = 20.sp, color = themeColorDark),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedLabelColor = Color.Black,
-                    focusedBorderColor = Color.Black,
-                    focusedContainerColor = Color(0x089602D2),
-                    unfocusedBorderColor = Color(0xFF70109D),
-                    unfocusedLabelColor = Color(0xE1670F8F)
+                    focusedLabelColor = blackColor,
+                    focusedBorderColor = blackColor,
+                    focusedContainerColor = fcColor,
+                    unfocusedBorderColor = themeColorDark,
+                    unfocusedLabelColor = themeColorDark
                 ),
-                modifier = Modifier.size(width = 340.dp, height = 70.dp)
+                supportingText = {
+                    if (emptyEmail) Text(
+                        "please enter email address",
+                        color = errorColor
+                    )
+                },
+                modifier = Modifier.size(width = 340.dp, height = 90.dp)
             )
 
             Spacer(modifier = Modifier.height(15.dp))
@@ -120,6 +139,8 @@ fun Login(controller: NavHostController) {
             OutlinedTextField(
                 value = password,
                 onValueChange = {
+                    emptyPassword = false
+                    userNotFound = false
                     password = it
                 },
                 label = { Text(text = "Password", fontSize = 20.sp) },
@@ -127,7 +148,7 @@ fun Login(controller: NavHostController) {
                     Text(
                         text = "Enter your Password",
                         fontSize = 15.sp,
-                        color = Color(color = 0x49423B44)
+                        color = placeHolderColor
                     )
                 },
                 trailingIcon = {
@@ -141,18 +162,24 @@ fun Login(controller: NavHostController) {
                 },
                 shape = RoundedCornerShape(10.dp),
                 singleLine = true,
-                textStyle = TextStyle(fontSize = 20.sp, color = Color(0xF76E3B80)),
+                textStyle = TextStyle(fontSize = 20.sp, color = themeColorDark),
                 visualTransformation = if (hide) PasswordVisualTransformation('*') else VisualTransformation.None,
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedLabelColor = Color.Black,
                     focusedBorderColor = Color.Black,
                     focusedTrailingIconColor = Color.Black,
-                    focusedContainerColor = Color(0x089602D2),
-                    unfocusedBorderColor = Color(0xFF70109D),
-                    unfocusedLabelColor = Color(0xE1670F8F),
-                    unfocusedTrailingIconColor = Color(0xFF70109D)
+                    focusedContainerColor = fcColor,
+                    unfocusedBorderColor = themeColorDark,
+                    unfocusedLabelColor = themeColorDark,
+                    unfocusedTrailingIconColor = themeColorDark
                 ),
-                modifier = Modifier.size(width = 340.dp, height = 70.dp)
+                supportingText = {
+                    if (emptyPassword) Text(
+                        "please enter password",
+                        color = errorColor
+                    )
+                },
+                modifier = Modifier.size(width = 340.dp, height = 90.dp)
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -162,35 +189,57 @@ fun Login(controller: NavHostController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 30.dp)
-                    .clickable{
+                    .clickable {
                         controller.navigate(ScreenRoute.ForgotPassword.route)
                     },
-                color = Color(0x9F9602D2),
+                color = themeColor,
                 textAlign = TextAlign.End
             )
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            if(userNotFound) {
+                Text(
+                    "Invalid Email and password",
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    color = errorColor,
+                    textAlign = TextAlign.Center
+                )
+            } else { Text("")
+            }
 
             Spacer(modifier = Modifier.height(25.dp))
 
             Button(
                 onClick = {
-                    val isUserExist = homeController.isUserExist(email, password)
-                    if (isUserExist) {
-                        prefController.setUser(email)
-                        controller.navigate(ScreenRoute.Home.route) {
-                            popUpTo(ScreenRoute.Login.route) {
-                                inclusive = true
-                            }
-                        }
-                    } else {
-                        password = ""
+                    if (email.isEmpty()) {
+                        emptyEmail = true
                     }
+                    if (password.isEmpty()) {
+                        emptyPassword = true
+                    }
+                    if (email.isNotEmpty() && password.isNotEmpty()) {
+                        val isUserExist = homeController.isUserExist(email, password)
+                        if (isUserExist) {
+                            prefController.setUser(email)
+                            controller.navigate(ScreenRoute.Home.route) {
+                                popUpTo(ScreenRoute.Login.route) {
+                                    inclusive = true
+                                }
+                            }
+                        } else {
+                            userNotFound = true
+                        }
+                    }
+
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
                     .padding(horizontal = 40.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xE475059F),
+                    containerColor = themeColor,
                     contentColor = Color.White
                 )
             ) {
@@ -206,7 +255,7 @@ fun Login(controller: NavHostController) {
         ) {
             Text(
                 text = "other way to sign in",
-                color = Color(0x529602D2),
+                color = themeColorLight,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -245,10 +294,10 @@ fun Login(controller: NavHostController) {
                 verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text("Don't have an account? ", color = Color(0x529602D2))
+                Text("Don't have an account? ", color = themeColorLight)
                 Text(
                     "Create Account",
-                    color = Color(0xE475059F),
+                    color = themeColorDark,
                     modifier = Modifier.clickable {
                         controller.navigate(ScreenRoute.Register.route)
                     })

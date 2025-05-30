@@ -21,4 +21,12 @@ class PrefController(context: Context) {
         spEditor.putString("user", null).apply()
     }
 
+    fun getUserEmail(email: String) {
+        spEditor.putString("change_password", email).apply()
+    }
+
+    fun setUserEmail(): String {
+        return sp.getString("change_password","")!!
+    }
+
 }

@@ -27,6 +27,9 @@ import androidx.navigation.NavHostController
 import com.example.app7.controller.HomeController
 import com.example.app7.controller.PrefController
 import com.example.app7.model.UserModel
+import com.example.app7.ui.theme.backColor
+import com.example.app7.ui.theme.themeColor
+import com.example.app7.ui.theme.themeColorDark
 import com.example.app7.view.navigation.ScreenRoute
 
 @Composable
@@ -39,7 +42,7 @@ fun Home(controller: NavHostController) {
     }
     val userlist: ArrayList<UserModel> = homeController.getAllUser()
 
-    Column(modifier = Modifier.fillMaxSize().background(color = Color(0xFFF4DBFF))) {
+    Column(modifier = Modifier.fillMaxSize().background(color = backColor)) {
         Row(modifier = Modifier
             .fillMaxSize()
             .padding(top = 10.dp, end = 20.dp)
@@ -64,20 +67,22 @@ fun Home(controller: NavHostController) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .weight(6f)
-                .background(color = Color(0xFFF4DBFF)),
+                .weight(6f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items(userlist.size) {
                 val user = userlist[it]
                 Card(modifier = Modifier.padding(5.dp).size(width = 350.dp, height = 45.dp),
-                    border = BorderStroke(1.dp, color = Color(0x2CC759F8)),
+                    border = BorderStroke(1.dp, color = themeColorDark),
                     shape = RoundedCornerShape(10.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = Color(0x8BEAA0E5),
-                        contentColor = Color(0xEB9602D2)
-                    )
+                        containerColor = Color(0x4BEAA0E5),
+                        contentColor = themeColor
+                    ),
+                    onClick = {
+                        homeController.removeUser(user.email)
+                    }
                 ) {
                     Text(text = user.email,
                         textAlign = TextAlign.Center,

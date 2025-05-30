@@ -8,6 +8,7 @@ import com.example.app7.view.screen.ForgotPassword
 import com.example.app7.view.screen.Home
 import com.example.app7.view.screen.Login
 import com.example.app7.view.screen.Register
+import com.example.app7.view.screen.SetNewPassword
 import com.example.app7.view.screen.Splash
 
 @Composable
@@ -29,6 +30,9 @@ fun NavigationStack() {
         composable(route = ScreenRoute.ForgotPassword.route) {
             ForgotPassword(controller)
         }
+        composable(route = ScreenRoute.SetNewPassword.route) {
+            SetNewPassword(controller)
+        }
     }
 }
 
@@ -39,4 +43,5 @@ sealed class ScreenRoute(val route: String) {
     data object Login : ScreenRoute("login")
     data object Register : ScreenRoute("register")
     data object ForgotPassword : ScreenRoute("forgotPassword")
+    data object SetNewPassword : ScreenRoute("setNewPassword")
 }
