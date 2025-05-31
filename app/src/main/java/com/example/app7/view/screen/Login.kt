@@ -51,6 +51,7 @@ import com.example.app7.ui.theme.themeColor
 import com.example.app7.ui.theme.themeColorDark
 import com.example.app7.ui.theme.themeColorLight
 import com.example.app7.view.navigation.ScreenRoute
+import kotlin.random.Random
 
 @Composable
 fun Login(controller: NavHostController) {
@@ -198,7 +199,7 @@ fun Login(controller: NavHostController) {
 
             Spacer(modifier = Modifier.height(5.dp))
 
-            if(userNotFound) {
+            if (userNotFound) {
                 Text(
                     "Invalid Email and password",
                     modifier = Modifier
@@ -206,7 +207,8 @@ fun Login(controller: NavHostController) {
                     color = errorColor,
                     textAlign = TextAlign.Center
                 )
-            } else { Text("")
+            } else {
+                Text("")
             }
 
             Spacer(modifier = Modifier.height(25.dp))

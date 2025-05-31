@@ -16,6 +16,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -40,14 +45,21 @@ fun Home(controller: NavHostController) {
     val homeController by lazy {
         HomeController(context)
     }
-    val userlist: ArrayList<UserModel> = homeController.getAllUser()
+    val userlist =
+        remember { mutableStateListOf<UserModel>().apply { addAll(homeController.getAllUser()) } }
 
-    Column(modifier = Modifier.fillMaxSize().background(color = backColor)) {
-        Row(modifier = Modifier
+    Column(
+        modifier = Modifier
             .fillMaxSize()
-            .padding(top = 10.dp, end = 20.dp)
-            .weight(0.5f),
-            horizontalArrangement = Arrangement.End) {
+            .background(color = backColor)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 10.dp, end = 20.dp)
+                .weight(0.5f),
+            horizontalArrangement = Arrangement.End
+        ) {
             Button(
                 onClick = {
                     prefController.removeUser()
@@ -58,7 +70,8 @@ fun Home(controller: NavHostController) {
                     }
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0x495A1C73)
+                    containerColor = themeColor,
+                    contentColor = Color.White
                 )
             ) {
                 Text("Log out")
@@ -73,7 +86,10 @@ fun Home(controller: NavHostController) {
         ) {
             items(userlist.size) {
                 val user = userlist[it]
-                Card(modifier = Modifier.padding(5.dp).size(width = 350.dp, height = 45.dp),
+                Card(
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .size(width = 350.dp, height = 45.dp),
                     border = BorderStroke(1.dp, color = themeColorDark),
                     shape = RoundedCornerShape(10.dp),
                     colors = CardDefaults.cardColors(
@@ -82,12 +98,15 @@ fun Home(controller: NavHostController) {
                     ),
                     onClick = {
                         homeController.removeUser(user.email)
+                        userlist.remove(user)
                     }
                 ) {
-                    Text(text = user.email,
+                    Text(
+                        text = user.email,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxSize(),
-                        fontSize = 25.sp)
+                        fontSize = 25.sp
+                    )
                 }
             }
         }
